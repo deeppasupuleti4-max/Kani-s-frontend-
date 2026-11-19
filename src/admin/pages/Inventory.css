@@ -1,0 +1,948 @@
+/* Admin Inventory. Every class starts with ki- and is scoped under .ki-page. */
+
+/* ---------- reset inside this page only (blocks global admin styles) ---------- */
+.ki-page,
+.ki-page *,
+.ki-page *::before,
+.ki-page *::after {
+    box-sizing: border-box;
+}
+
+.ki-page h2,
+.ki-page h3,
+.ki-page p {
+    margin: 0;
+    padding: 0;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+.ki-page button,
+.ki-page input {
+    font-family: inherit;
+    margin: 0;
+}
+
+.ki-page input {
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+}
+
+.ki-page button {
+    text-transform: none;
+}
+
+.ki-page small {
+    font-size: inherit;
+}
+
+/* ---------- page ---------- */
+.ki-page {
+    --gold: #e0b75f;
+    --gold-2: #c8902c;
+    --gold-soft: #f3d98b;
+    --green: #23a06f;
+    --green-soft: #7ee2b0;
+    --red: #b3261e;
+    --red-soft: #ffb3aa;
+    --ink: #f4ecd8;
+    --muted: #aebbb2;
+    --text-2: #d4d9cf;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    min-height: 80vh;
+    padding: 28px clamp(16px, 3vw, 36px) 44px;
+    border-radius: 28px;
+    background: radial-gradient(ellipse at 20% 0%, #14614a 0%, #0b3524 45%, #06231a 100%);
+    color: var(--ink);
+    font: 400 15px/1.5 "DM Sans", sans-serif;
+    animation: ki-fade .5s both;
+}
+
+.ki-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+@keyframes ki-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes ki-rise {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ---------- background life ---------- */
+.ki-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    pointer-events: none;
+    animation: ki-float 14s ease-in-out infinite;
+}
+
+.ki-orb-a {
+    width: 380px;
+    height: 380px;
+    background: #d8a33d;
+    top: -120px;
+    left: -80px;
+    opacity: .25;
+}
+
+.ki-orb-b {
+    width: 460px;
+    height: 460px;
+    background: #17704e;
+    bottom: -160px;
+    right: -100px;
+    opacity: .55;
+    animation-delay: -6s;
+}
+
+@keyframes ki-float {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(40px, -30px) scale(1.12);
+    }
+}
+
+.ki-pattern {
+    position: absolute;
+    inset: -80px;
+    opacity: .5;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M40 14 L66 40 L40 66 L14 40 Z' fill='none' stroke='%23d8a33d' stroke-opacity='.16' stroke-width='1.2'/%3E%3C/svg%3E");
+    animation: ki-drift 30s linear infinite;
+}
+
+@keyframes ki-drift {
+    to {
+        transform: translate(80px, 80px);
+    }
+}
+
+.ki-spark {
+    position: absolute;
+    color: var(--gold);
+    font-style: normal;
+    font-size: 14px;
+    pointer-events: none;
+    animation: ki-twinkle 5s ease-in-out infinite;
+}
+
+@keyframes ki-twinkle {
+
+    0%,
+    100% {
+        opacity: .15;
+        transform: translateY(0) rotate(0);
+    }
+
+    50% {
+        opacity: .9;
+        transform: translateY(-16px) rotate(90deg);
+    }
+}
+
+/* ---------- header ---------- */
+.ki-head {
+    margin-bottom: 24px;
+    animation: ki-rise .8s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.ki-eyebrow {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+}
+
+.ki-page .ki-head h2 {
+    color: #fff;
+    font: 600 clamp(30px, 4vw, 42px)/1.1 "Playfair Display", serif;
+}
+
+/* ---------- glass + sheen ---------- */
+.ki-glass {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, .09);
+    border: 1px solid rgba(255, 255, 255, .2);
+    -webkit-backdrop-filter: blur(20px) saturate(170%);
+    backdrop-filter: blur(20px) saturate(170%);
+    box-shadow: 0 30px 60px -34px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(255, 255, 255, .26);
+}
+
+.ki-sheen {
+    position: absolute;
+    top: 0;
+    left: -80%;
+    width: 50%;
+    height: 100%;
+    pointer-events: none;
+    transform: skewX(-20deg);
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .12), transparent);
+    transition: left 1s ease;
+    z-index: 0;
+}
+
+.ki-glass:hover>.ki-sheen,
+.ki-stat:hover>.ki-sheen {
+    left: 130%;
+}
+
+.ki-glass>*:not(.ki-sheen),
+.ki-stat>*:not(.ki-sheen) {
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------- stats ---------- */
+.ki-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.ki-stat {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    min-height: 96px;
+    padding: 18px 22px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .18);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    animation: ki-rise .8s calc(var(--i) * 90ms + .1s) cubic-bezier(.22, 1, .36, 1) both;
+    transition: transform .3s, border-color .3s;
+}
+
+.ki-stat:hover {
+    transform: translateY(-4px);
+    border-color: rgba(224, 183, 95, .6);
+}
+
+.ki-stat strong {
+    display: block;
+    color: var(--gold);
+    font: 600 34px/1 "Playfair Display", serif;
+    font-variant-numeric: tabular-nums;
+}
+
+.ki-stat.warn strong {
+    color: var(--gold-soft);
+}
+
+.ki-stat.bad strong {
+    color: var(--red-soft);
+}
+
+.ki-stat small {
+    display: block;
+    color: var(--text-2);
+    font-size: 13px;
+    letter-spacing: .05em;
+}
+
+/* ---------- toolbar ---------- */
+.ki-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 22px;
+    align-items: center;
+    margin-bottom: 22px;
+    animation: ki-rise .8s .35s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.ki-search {
+    flex: 1 1 280px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 50px;
+    padding: 0 18px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .18);
+    transition: border-color .3s, box-shadow .3s, background .3s;
+}
+
+.ki-search svg {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+.ki-search:focus-within {
+    border-color: var(--gold);
+    background: rgba(255, 255, 255, .14);
+    box-shadow: 0 0 0 4px rgba(224, 183, 95, .18);
+}
+
+.ki-page .ki-search input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    color: #fff;
+    font: 400 15px "DM Sans", sans-serif;
+    outline: 0;
+}
+
+.ki-search input::placeholder {
+    color: var(--muted);
+    opacity: 1;
+}
+
+.ki-switch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+.ki-switch input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
+.ki-track {
+    flex: none;
+    width: 52px;
+    height: 30px;
+    padding: 3px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .22);
+    transition: background .35s;
+}
+
+.ki-track i {
+    display: block;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
+    transition: transform .4s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.ki-switch input:checked+.ki-track {
+    background: linear-gradient(135deg, var(--gold), var(--gold-2));
+    border-color: transparent;
+}
+
+.ki-switch input:checked+.ki-track i {
+    transform: translateX(22px);
+}
+
+.ki-switch input:focus-visible+.ki-track {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+}
+
+/* ---------- product groups ---------- */
+.ki-list {
+    display: grid;
+    gap: 18px;
+}
+
+.ki-prod {
+    padding: 10px;
+    animation: ki-rise .7s calc(var(--i) * 70ms + .15s) cubic-bezier(.22, 1, .36, 1) both;
+    transition: border-color .35s, box-shadow .35s;
+}
+
+.ki-prod:hover {
+    border-color: rgba(224, 183, 95, .5);
+    box-shadow: 0 40px 70px -34px rgba(0, 0, 0, .75), inset 0 1px 0 rgba(255, 255, 255, .26);
+}
+
+.ki-phead {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 14px 16px;
+}
+
+.ki-pimg {
+    flex: none;
+    width: 58px;
+    height: 72px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border-radius: 14px;
+    background: linear-gradient(160deg, #0f4a35, #06231a);
+    border: 1px solid rgba(255, 255, 255, .18);
+}
+
+.ki-pimg img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .6s cubic-bezier(.22, 1, .36, 1);
+}
+
+.ki-prod:hover .ki-pimg img {
+    transform: scale(1.12);
+}
+
+.ki-pimg svg {
+    width: 58%;
+    height: auto;
+}
+
+.ki-pname {
+    flex: 1;
+    min-width: 0;
+}
+
+.ki-page .ki-pname h3 {
+    color: #fff;
+    font: 500 21px/1.25 "Playfair Display", serif;
+    overflow-wrap: anywhere;
+}
+
+.ki-pname small {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.ki-ptotal {
+    flex: none;
+    text-align: right;
+}
+
+.ki-ptotal strong {
+    display: block;
+    color: var(--gold);
+    font: 600 28px/1 "Playfair Display", serif;
+    font-variant-numeric: tabular-nums;
+}
+
+.ki-ptotal small {
+    display: block;
+    margin-top: 4px;
+    color: var(--text-2);
+    font-size: 12px;
+}
+
+/* ---------- variant rows: ONE shared grid so every column lines up ---------- */
+.ki-vlist {
+    display: grid;
+    gap: 6px;
+}
+
+.ki-vhead,
+.ki-v {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.5fr) 304px;
+    gap: 20px;
+    align-items: center;
+}
+
+.ki-vhead {
+    padding: 0 18px 6px;
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+.ki-vhead span:last-child {
+    text-align: right;
+    padding-right: 4px;
+}
+
+.ki-v {
+    padding: 12px 18px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid transparent;
+    animation: ki-rise .5s calc(var(--j) * 55ms + .25s) cubic-bezier(.22, 1, .36, 1) both;
+    transition: background .3s, border-color .3s;
+}
+
+.ki-v:hover {
+    background: rgba(255, 255, 255, .1);
+}
+
+.ki-v.dirty {
+    border-color: rgba(224, 183, 95, .55);
+    background: rgba(224, 183, 95, .09);
+}
+
+.ki-v.saved {
+    animation: ki-flash 1.4s ease;
+}
+
+@keyframes ki-flash {
+    0% {
+        background: rgba(126, 226, 176, .38);
+    }
+
+    100% {
+        background: rgba(255, 255, 255, .05);
+    }
+}
+
+.ki-vinfo {
+    min-width: 0;
+}
+
+.ki-vinfo b {
+    display: block;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ki-vinfo small {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: .06em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ki-level {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.ki-bar {
+    flex: 1;
+    min-width: 40px;
+    height: 6px;
+    overflow: hidden;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, .12);
+}
+
+.ki-bar i {
+    display: block;
+    height: 100%;
+    border-radius: 9px;
+    background: linear-gradient(90deg, var(--green), var(--green-soft));
+    transform-origin: left;
+    animation: ki-fill 1.1s cubic-bezier(.22, 1, .36, 1) both;
+    transition: width .8s cubic-bezier(.22, 1, .36, 1);
+}
+
+.ki-bar i.low {
+    background: linear-gradient(90deg, #d8a33d, var(--gold-soft));
+}
+
+.ki-bar i.out {
+    background: var(--red);
+}
+
+@keyframes ki-fill {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+.ki-pill {
+    flex: none;
+    width: 88px;
+    padding: 6px 0;
+    text-align: center;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .1);
+    border: 1px solid rgba(255, 255, 255, .18);
+    font-size: 13px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.ki-pill.ok {
+    color: var(--green-soft);
+}
+
+.ki-pill.low {
+    color: var(--gold-soft);
+    animation: ki-pulse 2.4s ease-in-out infinite;
+}
+
+.ki-pill.out {
+    color: var(--red-soft);
+}
+
+@keyframes ki-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(243, 217, 139, .5);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px rgba(243, 217, 139, 0);
+    }
+}
+
+/* ---------- stepper + save (right-aligned, fixed width, never shifts) ---------- */
+.ki-edit {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.ki-stepper {
+    flex: none;
+    display: flex;
+    align-items: center;
+    height: 44px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .2);
+    transition: border-color .3s, box-shadow .3s;
+}
+
+.ki-stepper:focus-within {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 4px rgba(224, 183, 95, .18);
+}
+
+.ki-page .ki-stepper button {
+    width: 38px;
+    height: 100%;
+    border: 0;
+    background: none;
+    color: var(--gold);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+}
+
+.ki-stepper button:hover {
+    background: rgba(224, 183, 95, .2);
+}
+
+.ki-stepper button:active {
+    transform: scale(.85);
+}
+
+.ki-page .ki-stepper input {
+    width: 60px;
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    font: 600 15px "DM Sans", sans-serif;
+    outline: 0;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.ki-stepper input::-webkit-outer-spin-button,
+.ki-stepper input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.ki-stepper input::placeholder {
+    color: var(--muted);
+    font-weight: 400;
+    opacity: 1;
+}
+
+.ki-page .ki-save {
+    flex: none;
+    width: 96px;
+    height: 44px;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--gold), var(--gold-2));
+    color: #1a2a20;
+    font: 700 14px "DM Sans", sans-serif;
+    box-shadow: 0 12px 24px -12px rgba(216, 163, 61, .9);
+    transition: transform .3s, box-shadow .3s, opacity .3s;
+}
+
+.ki-save:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 28px -12px rgba(216, 163, 61, 1);
+}
+
+.ki-save:active:not(:disabled) {
+    transform: scale(.96);
+}
+
+.ki-save:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.ki-v.saved .ki-save {
+    background: linear-gradient(135deg, var(--green), #17704e);
+    color: #fff;
+    opacity: 1;
+}
+
+.ki-page .ki-undo {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 150, 140, .4);
+    background: rgba(179, 38, 30, .2);
+    color: #ffd7d2;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(.6);
+    pointer-events: none;
+    transition: opacity .25s, transform .3s, background .25s;
+}
+
+.ki-undo.show {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.ki-undo.show:hover {
+    background: var(--red);
+    transform: rotate(90deg);
+}
+
+.ki-save:focus-visible,
+.ki-undo:focus-visible,
+.ki-stepper button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+/* ---------- error / empty / skeleton ---------- */
+.ki-error {
+    margin: 0 0 18px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    background: rgba(179, 38, 30, .25);
+    border: 1px solid rgba(255, 150, 140, .4);
+    color: #ffd7d2;
+    animation: ki-shake .4s;
+}
+
+@keyframes ki-shake {
+    25% {
+        transform: translateX(-6px);
+    }
+
+    75% {
+        transform: translateX(6px);
+    }
+}
+
+.ki-empty {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    padding: 54px 20px;
+    text-align: center;
+    color: var(--text-2);
+}
+
+.ki-emptyIcon {
+    width: 76px;
+    filter: drop-shadow(0 12px 14px rgba(0, 0, 0, .4));
+    animation: ki-bob 5s ease-in-out infinite;
+}
+
+.ki-emptyIcon svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@keyframes ki-bob {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+}
+
+.ki-skel {
+    height: 170px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, .12);
+    background: linear-gradient(100deg, rgba(255, 255, 255, .05) 30%, rgba(255, 255, 255, .16) 50%, rgba(255, 255, 255, .05) 70%) 0 0 / 250% 100%;
+    animation: ki-shimmer 1.4s linear infinite, ki-fade .6s calc(var(--i) * 80ms) both;
+}
+
+@keyframes ki-shimmer {
+    to {
+        background-position: -150% 0;
+    }
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 1000px) {
+    .ki-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ki-vhead {
+        display: none;
+    }
+
+    .ki-v {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 12px 18px;
+    }
+
+    .ki-edit {
+        grid-column: 1 / -1;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 560px) {
+    .ki-page {
+        padding: 22px 14px 32px;
+        border-radius: 20px;
+    }
+
+    .ki-v {
+        grid-template-columns: 1fr;
+        padding: 14px;
+    }
+
+    .ki-level {
+        gap: 10px;
+    }
+
+    .ki-pill {
+        width: 78px;
+    }
+
+    .ki-page .ki-pname h3 {
+        font-size: 17px;
+    }
+
+    .ki-ptotal strong {
+        font-size: 24px;
+    }
+
+    .ki-phead {
+        gap: 12px;
+        padding: 8px 8px 14px;
+    }
+
+    .ki-edit {
+        gap: 8px;
+    }
+
+    .ki-page .ki-save {
+        width: 84px;
+    }
+
+    .ki-stat {
+        min-height: 86px;
+        padding: 16px;
+    }
+
+    .ki-stat strong {
+        font-size: 28px;
+    }
+
+    .ki-switch {
+        white-space: normal;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ki-orb,
+    .ki-pattern,
+    .ki-spark,
+    .ki-emptyIcon,
+    .ki-skel,
+    .ki-pill.low {
+        animation: none;
+    }
+
+    .ki-v,
+    .ki-bar i,
+    .ki-stat,
+    .ki-prod {
+        transition-duration: .01ms;
+    }
+}

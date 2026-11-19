@@ -1,0 +1,72 @@
+/* Account menu for the navbar. Classes start with am- so nothing else is affected.
+   Adjust colors if your navbar background is light instead of dark. */
+
+.am-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.am-hi {
+    font: 500 14px "DM Sans", sans-serif;
+    color: inherit;
+    white-space: nowrap;
+}
+
+.am-link,
+.am-out {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(224, 183, 95, .55);
+    background: transparent;
+    color: #e0b75f;
+    font: 600 14px "DM Sans", sans-serif;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .25s, color .25s, transform .25s;
+}
+
+.am-link:hover,
+.am-out:hover:not(:disabled) {
+    background: #e0b75f;
+    color: #1a2a20;
+    transform: translateY(-1px);
+}
+
+.am-out:disabled {
+    opacity: .7;
+    cursor: wait;
+}
+
+.am-link:focus-visible,
+.am-out:focus-visible {
+    outline: 2px solid #e0b75f;
+    outline-offset: 2px;
+}
+
+.am-err {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    white-space: nowrap;
+    background: #b3261e;
+    color: #fff;
+}
+
+@media (max-width: 520px) {
+    .am-hi {
+        display: none;
+    }
+
+    .am-link span,
+    .am-out span {
+        display: none;
+    }
+}

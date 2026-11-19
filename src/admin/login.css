@@ -1,0 +1,125 @@
+/* Admin login. Classes start with kl- so nothing else is affected. */
+
+.kl-page {
+  position: relative; min-height: 100vh; overflow: hidden; display: grid; place-items: center; padding: 32px 5vw;
+  background: radial-gradient(ellipse at 20% 10%, #14614a 0%, #0b3524 45%, #06231a 100%);
+  color: #f4ecd8;
+}
+
+/* background life */
+.kl-orb { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; pointer-events: none; animation: kl-float 14s ease-in-out infinite; }
+.kl-orb-a { width: 420px; height: 420px; background: #d8a33d; top: -120px; left: -80px; opacity: .3; }
+.kl-orb-b { width: 520px; height: 520px; background: #17704e; bottom: -180px; right: -120px; animation-delay: -5s; }
+.kl-orb-c { width: 260px; height: 260px; background: #e0b75f; top: 48%; left: 46%; opacity: .16; animation-delay: -9s; }
+@keyframes kl-float { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(40px, -34px) scale(1.12); } }
+
+.kl-pattern {
+  position: absolute; inset: -60px; opacity: .5; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M40 14 L66 40 L40 66 L14 40 Z' fill='none' stroke='%23d8a33d' stroke-opacity='.18' stroke-width='1.2'/%3E%3C/svg%3E");
+  animation: kl-drift 30s linear infinite;
+}
+@keyframes kl-drift { to { transform: translate(80px, 80px); } }
+
+.kl-spark { position: absolute; color: #e0b75f; font-style: normal; font-size: 14px; pointer-events: none; animation: kl-twinkle 5s ease-in-out infinite; }
+@keyframes kl-twinkle { 0%, 100% { opacity: .15; transform: translateY(0) rotate(0); } 50% { opacity: .95; transform: translateY(-16px) rotate(90deg); } }
+
+.kl-grid { position: relative; z-index: 2; width: min(1180px, 100%); display: grid; grid-template-columns: 1.1fr .9fr; gap: 5vw; align-items: center; }
+
+/* left */
+.kl-brand { font: 600 clamp(30px, 3.4vw, 44px)/1 "Playfair Display", serif; letter-spacing: 1px; color: #fff; animation: kl-rise .9s cubic-bezier(.22, 1, .36, 1) both; }
+.kl-brand b { font: 600 .42em "DM Sans", sans-serif; letter-spacing: .3em; color: #e0b75f; margin-left: 8px; }
+.kl-brand i { color: #e0b75f; font-style: normal; font-size: .5em; }
+@keyframes kl-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+/* 3D garment */
+.kl-stage { position: relative; height: 380px; display: grid; place-items: center; perspective: 1000px; margin: 8px 0 18px; }
+.kl-tilt { transform-style: preserve-3d; transition: transform .25s ease-out; }
+.kl-spin { position: relative; width: 190px; height: 313px; transform-style: preserve-3d; animation: kl-turn 16s linear infinite; }
+.kl-stage:hover .kl-spin { animation-play-state: paused; }
+@keyframes kl-turn { to { transform: rotateY(360deg); } }
+.kl-layer { position: absolute; inset: 0; backface-visibility: visible; }
+.kl-layer svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .35)); }
+.kl-floor { position: absolute; bottom: 4px; width: 230px; height: 26px; border-radius: 50%; background: radial-gradient(ellipse, rgba(0, 0, 0, .5), transparent 70%); animation: kl-pulse 4s ease-in-out infinite; }
+@keyframes kl-pulse { 0%, 100% { transform: scaleX(1); opacity: .8; } 50% { transform: scaleX(.85); opacity: .5; } }
+
+/* flip cards */
+.kl-flips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.kl-flip { background: none; border: 0; padding: 0; height: 128px; perspective: 800px; cursor: pointer; font: inherit; color: inherit; text-align: left; }
+.kl-flip-in { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .8s cubic-bezier(.22, 1, .36, 1); }
+.kl-flip:hover .kl-flip-in, .kl-flip:focus-visible .kl-flip-in, .kl-flip.on .kl-flip-in { transform: rotateY(180deg); }
+.kl-flip:focus-visible { outline: 2px solid #e0b75f; outline-offset: 4px; border-radius: 18px; }
+.kl-face {
+  position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 16px 18px;
+  border-radius: 18px; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .2);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+}
+.kl-front strong { font: 600 19px "Playfair Display", serif; color: #fff; }
+.kl-front small { color: #d4d9cf; font-size: 13px; }
+.kl-back { transform: rotateY(180deg); background: linear-gradient(150deg, rgba(224, 183, 95, .3), rgba(255, 255, 255, .08)); font-size: 13px; line-height: 1.55; color: #fff8eb; }
+
+/* glass sign-in card */
+.kl-right { position: relative; display: grid; place-items: center; }
+.kl-glass {
+  position: relative; overflow: hidden; width: min(430px, 100%); display: grid; gap: 18px; padding: 42px 36px;
+  border-radius: 30px; background: rgba(255, 255, 255, .09); border: 1px solid rgba(255, 255, 255, .22);
+  -webkit-backdrop-filter: blur(26px) saturate(170%); backdrop-filter: blur(26px) saturate(170%);
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(255, 255, 255, .3);
+  animation: kl-rise 1s .15s cubic-bezier(.22, 1, .36, 1) both; transition: transform .4s, box-shadow .4s;
+}
+.kl-glass:hover { transform: translateY(-4px); box-shadow: 0 50px 90px -30px rgba(0, 0, 0, .7), 0 0 0 1px rgba(224, 183, 95, .45), inset 0 1px 0 rgba(255, 255, 255, .35); }
+.kl-sheen { position: absolute; top: 0; left: -80%; width: 50%; height: 100%; pointer-events: none; transform: skewX(-20deg); background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .14), transparent); transition: left 1s ease; }
+.kl-glass:hover .kl-sheen { left: 130%; }
+.kl-glass h1 { margin: 0; font: 500 34px "Playfair Display", serif; letter-spacing: 0; line-height: 1.15; color: #fff; }
+.kl-sub { margin: -8px 0 4px; color: #d4d9cf; font-size: 15px; }
+
+.kl-field { display: flex; align-items: center; gap: 12px; padding: 0 16px; height: 54px; border-radius: 16px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .18); color: #e0b75f; transition: border-color .3s, box-shadow .3s, background .3s, transform .3s; }
+.kl-field:hover { background: rgba(255, 255, 255, .12); }
+.kl-field:focus-within { border-color: #e0b75f; background: rgba(255, 255, 255, .14); box-shadow: 0 0 0 4px rgba(224, 183, 95, .18); transform: translateY(-1px); }
+.kl-field input { flex: 1; min-width: 0; height: 100%; background: none; border: 0; outline: 0; color: #fff; font: 400 16px "DM Sans", sans-serif; }
+.kl-field input::placeholder { color: #aebbb2; }
+.kl-eye { background: none; border: 0; color: #d4d9cf; cursor: pointer; display: grid; place-items: center; padding: 4px; border-radius: 8px; }
+.kl-eye:hover { color: #e0b75f; }
+.kl-eye:focus-visible { outline: 2px solid #e0b75f; }
+
+.kl-error { margin: 0; padding: 10px 14px; border-radius: 12px; font-size: 14px; background: rgba(179, 38, 30, .25); border: 1px solid rgba(255, 150, 140, .4); color: #ffd7d2; animation: kl-shake .4s; }
+@keyframes kl-shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+.kl-btn {
+  position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 54px; border: 0; border-radius: 999px; cursor: pointer;
+  background: linear-gradient(135deg, #e0b75f, #c8902c); color: #1a2a20; font: 700 16px "DM Sans", sans-serif;
+  box-shadow: 0 16px 30px -14px rgba(216, 163, 61, .9); transition: transform .3s, box-shadow .3s;
+}
+.kl-btn svg { transition: transform .3s; }
+.kl-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 22px 36px -14px rgba(216, 163, 61, 1); }
+.kl-btn:hover:not(:disabled) svg { transform: translateX(5px); }
+.kl-btn:active:not(:disabled) { transform: scale(.97); }
+.kl-btn:disabled { opacity: .7; cursor: wait; }
+.kl-btn::after { content: ""; position: absolute; top: 0; left: -60%; width: 40%; height: 100%; transform: skewX(-20deg); background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .5), transparent); animation: kl-shine 4.5s ease-in-out infinite; }
+@keyframes kl-shine { 0%, 60% { left: -60%; } 100% { left: 140%; } }
+.kl-btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+/* welcome overlay */
+.kl-welcome { position: absolute; inset: 0; z-index: 5; display: grid; place-content: center; justify-items: center; gap: 12px; border-radius: 30px; background: rgba(6, 35, 26, .82); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); animation: kl-fade .4s both; }
+.kl-welcome p { margin: 0; font: 500 24px "Playfair Display", serif; color: #fff; }
+.kl-welcome svg { width: 76px; height: 76px; fill: none; stroke: #e0b75f; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.kl-welcome circle { stroke-dasharray: 151; stroke-dashoffset: 151; animation: kl-draw .7s ease forwards; }
+.kl-welcome path { stroke-dasharray: 40; stroke-dashoffset: 40; animation: kl-draw .4s .5s ease forwards; }
+@keyframes kl-draw { to { stroke-dashoffset: 0; } }
+@keyframes kl-fade { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 900px) {
+  .kl-grid { grid-template-columns: 1fr; gap: 28px; }
+  .kl-right { order: -1; }
+  .kl-stage { height: 280px; }
+  .kl-spin { transform-origin: center; scale: .72; }
+}
+@media (max-width: 520px) {
+  .kl-flips { grid-template-columns: 1fr; }
+  .kl-flip { height: 110px; }
+  .kl-glass { padding: 32px 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kl-orb, .kl-pattern, .kl-spark, .kl-spin, .kl-floor, .kl-btn::after { animation: none; }
+  .kl-flip-in { transition-duration: .01ms; }
+}

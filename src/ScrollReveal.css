@@ -1,0 +1,112 @@
+.sr-section {
+    position: relative;
+    height: 300vh;
+    /* scroll distance: ~100vh per item */
+}
+
+.sr-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: clamp(24px, 5vw, 80px);
+    padding: 0 clamp(20px, 6vw, 96px);
+    overflow: hidden;
+}
+
+.sr-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 28px;
+    justify-self: end;
+    max-width: 460px;
+}
+
+.sr-num {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: #c4922a;
+    margin-bottom: 8px;
+}
+
+.sr-num i {
+    display: block;
+    width: 56px;
+    height: 1px;
+    background: #d9bd7e;
+}
+
+.sr-list h3 {
+    margin: 0;
+    font-family: "Playfair Display", Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(1.7rem, 3vw, 2.6rem);
+    line-height: 1.15;
+}
+
+.sr-list li.on h3 {
+    font-weight: 700;
+}
+
+.sr-list p {
+    margin: 12px 0 0;
+    overflow: hidden;
+    color: #5d5d5d;
+    line-height: 1.6;
+    max-width: 38ch;
+}
+
+/* arch picture */
+.sr-arch {
+    justify-self: start;
+    width: min(100%, 440px);
+    aspect-ratio: 2 / 3;
+    max-height: 82vh;
+    border: 1px solid #e3c98c;
+    border-radius: 999px 999px 10px 10px;
+    background: radial-gradient(ellipse at 50% 35%, #fdf1e2, #faf5ec 70%);
+    overflow: hidden;
+    display: grid;
+    place-items: end center;
+}
+
+.sr-arch img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 800px) {
+    .sr-sticky {
+        grid-template-columns: 1fr;
+        align-content: center;
+        gap: 20px;
+    }
+
+    .sr-list {
+        justify-self: start;
+        gap: 18px;
+    }
+
+    .sr-arch {
+        justify-self: center;
+        max-height: 38vh;
+        width: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .sr-list h3,
+    .sr-arch img {
+        transition: none !important;
+    }
+}

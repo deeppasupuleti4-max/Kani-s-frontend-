@@ -1,0 +1,272 @@
+.ls-section {
+    position: relative;
+    height: 420vh;
+    /* about one screen of scrolling per detail */
+    background: #0f4a35;
+    color: #f6ecd8;
+}
+
+.ls-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: clamp(24px, 5vw, 80px);
+    padding: 0 clamp(20px, 6vw, 96px);
+}
+
+/* drifting diamond pattern */
+.ls-pattern {
+    position: absolute;
+    inset: -160px -40px;
+    pointer-events: none;
+    opacity: 0.9;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cpath d='M36 14 58 36 36 58 14 36Z' fill='none' stroke='%23f6ecd8' stroke-opacity='.07' stroke-width='1.5'/%3E%3Cpath d='M36 24 48 36 36 48 24 36Z' fill='%23f6ecd8' fill-opacity='.025'/%3E%3C/svg%3E");
+    background-size: 72px 72px;
+}
+
+/* diagram */
+.ls-diagram-wrap {
+    position: relative;
+    justify-self: center;
+    width: min(100%, 400px);
+    perspective: 900px;
+}
+
+.ls-tilt {
+    will-change: transform;
+}
+
+.ls-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    overflow: visible;
+}
+
+/* copy */
+.ls-copy {
+    position: relative;
+    max-width: 560px;
+}
+
+.ls-kicker {
+    display: block;
+    margin-bottom: 14px;
+    font-size: 0.92rem;
+    color: #e8d9ae;
+}
+
+.ls-copy h2 {
+    margin: 0 0 clamp(22px, 4vh, 40px);
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4.2vw, 3.4rem);
+    line-height: 1.08;
+    color: #fbf4e4;
+}
+
+.ls-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+}
+
+.ls-item button {
+    all: unset;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding: 16px 20px;
+    border-radius: 18px;
+    cursor: pointer;
+    transition: background 0.4s ease;
+}
+
+.ls-item.on button {
+    background: rgba(246, 236, 216, 0.1);
+}
+
+.ls-item button:focus-visible {
+    outline: 2px solid #c4922a;
+    outline-offset: 2px;
+}
+
+.ls-badge {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1.5px solid #c4922a;
+    color: #e8c779;
+    font-size: 0.9rem;
+    transition: background 0.4s ease, color 0.4s ease;
+}
+
+.ls-item.on .ls-badge,
+.ls-item.done .ls-badge {
+    background: #c4922a;
+    color: #0f4a35;
+}
+
+.ls-text {
+    display: block;
+    min-width: 0;
+}
+
+.ls-text strong {
+    display: block;
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+    line-height: 1.3;
+    padding-top: 3px;
+    color: rgba(246, 236, 216, 0.5);
+    transition: color 0.4s ease;
+}
+
+.ls-item.done strong {
+    color: rgba(246, 236, 216, 0.78);
+}
+
+.ls-item.on strong {
+    color: #fbf4e4;
+}
+
+.ls-desc {
+    display: block;
+    overflow: hidden;
+}
+
+.ls-desc>span {
+    display: block;
+    padding-top: 10px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(246, 236, 216, 0.82);
+    max-width: 46ch;
+}
+
+/* scroll progress */
+.ls-progress {
+    margin-top: clamp(20px, 4vh, 36px);
+    height: 3px;
+    border-radius: 3px;
+    background: rgba(246, 236, 216, 0.14);
+    overflow: hidden;
+}
+
+.ls-progress i {
+    display: block;
+    height: 100%;
+    background: #c4922a;
+    transform-origin: left;
+}
+
+/* mouse-scroll hint */
+.ls-scroll-hint {
+    position: absolute;
+    left: clamp(20px, 6vw, 96px);
+    bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: rgba(246, 236, 216, 0.7);
+}
+
+.ls-mouse {
+    width: 20px;
+    height: 32px;
+    border: 1.5px solid rgba(246, 236, 216, 0.6);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    padding-top: 6px;
+}
+
+.ls-mouse i {
+    width: 3px;
+    height: 7px;
+    border-radius: 3px;
+    background: #c4922a;
+    animation: ls-wheel 1.5s ease-in-out infinite;
+}
+
+@keyframes ls-wheel {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    70% {
+        transform: translateY(9px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 800px) {
+    .ls-sticky {
+        grid-template-columns: 1fr;
+        align-content: center;
+        gap: 6px;
+        padding-top: 70px;
+    }
+
+    .ls-diagram-wrap {
+        width: min(60%, 220px);
+    }
+
+    .ls-svg {
+        max-height: 34vh;
+    }
+
+    .ls-copy h2 {
+        font-size: 1.6rem;
+        margin-bottom: 12px;
+    }
+
+    .ls-kicker {
+        margin-bottom: 6px;
+    }
+
+    .ls-item button {
+        padding: 10px 12px;
+        gap: 12px;
+    }
+
+    .ls-badge {
+        width: 30px;
+        height: 30px;
+    }
+
+    .ls-desc>span {
+        font-size: 0.92rem;
+        padding-top: 6px;
+    }
+
+    .ls-scroll-hint {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ls-mouse i {
+        animation: none;
+    }
+}
